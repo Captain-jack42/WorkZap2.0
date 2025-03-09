@@ -17,11 +17,9 @@ module.exports = class Signup{
       phone:this.phone,
       password:this.password
     };
-    if(this.email){
-      console.log("Email-Id already exist,login");
-    }else{
+    
       return db.collection('account').insertOne(this);
-    }
+    
   
   }
 
