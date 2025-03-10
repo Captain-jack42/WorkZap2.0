@@ -3,16 +3,20 @@ const { getDB } = require('../utils/databaseutil');
 
 module.exports = class Hired{
   constructor(_id){
-    this._id = _id;
+    if(_id){
+      this._id = _id;
+    }
   }
   
   save(){
     const db = getDB();
-    if(this._id){
-      console("already hired");
-    }else{
-      return db.collection('hired').insertOne(this);
-    }
+    return db.collection('hired').findOne({_id: this._id}).then(existingId=>{
+      if((!existingId)){
+        return db.collection('hired').insertOne(this);
+      }
+      return  Promise.resolve();
+    })
+      
   }
 
 static fetchAll(callback){
